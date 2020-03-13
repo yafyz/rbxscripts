@@ -26,7 +26,7 @@ local function checkServers()
 			if #resp["Collection"] == 0 then break end
 			for _,y in next, resp["Collection"] do
 				table.insert(servers, y["Guid"])
-				plr.PlayerGui.Screen.Twitter.Text = "Collected Servers: " .. #servers
+				pcall(function() plr.PlayerGui.Screen.Twitter.Text = "Collected Servers: " .. #servers end)
 			end
 		end
 	end
@@ -37,7 +37,7 @@ TeleportService.TeleportInitFailed:Connect(function()
 	checkServers()
     local nextServer = servers[#servers]
     table.remove(servers, #servers)
-    plr.PlayerGui.Screen.Twitter.Text = "Collected Servers: " .. tostring(#servers) .. ", " .. tostring(suc) .. " " .. tostring(ret)
+    pcall(function() plr.PlayerGui.Screen.Twitter.Text = "Collected Servers: " .. tostring(#servers) .. ", " .. tostring(suc) .. " " .. tostring(ret) end)
     TeleportService:SetTeleportSetting("servers", servers)
     TeleportService:TeleportToPlaceInstance(game.PlaceId, nextServer)
 end)
@@ -45,6 +45,6 @@ end)
 local suc, ret = pcall(CollectShell)
 local thisServer = servers[#servers]
 table.remove(servers, #servers)
-plr.PlayerGui.Screen.Twitter.Text = "Collected Servers: " .. tostring(#servers) .. ", " .. tostring(suc) .. " " .. tostring(ret)
+pcall(function() plr.PlayerGui.Screen.Twitter.Text = "Collected Servers: " .. tostring(#servers) .. ", " .. tostring(suc) .. " " .. tostring(ret) end)
 TeleportService:SetTeleportSetting("servers", servers)
 TeleportService:TeleportToPlaceInstance(game.PlaceId, thisServer)
