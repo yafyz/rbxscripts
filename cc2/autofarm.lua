@@ -32,6 +32,9 @@ local function checkServers()
 				end)
 			end
 		end
+		for i=1, max / 10 do
+			table.remove(servers, #servers)
+		end
 	end
 end
 checkServers()
