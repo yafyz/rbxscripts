@@ -3,7 +3,6 @@ repeat wait() until game.Players.LocalPlayer
 local plr = game.Players.LocalPlayer
 repeat wait() until plr.Character
 plr.Character:WaitForChild("HumanoidRootPart")
-plr.Character:WaitForChild("LeftFoot")
 
 local TeleportService = game:GetService("TeleportService")
 local HttpService = game:GetService("HttpService")
@@ -11,7 +10,7 @@ local HttpService = game:GetService("HttpService")
 local function CollectShell()
     local shell = game.Workspace:FindFirstChild("Shell")
     assert(shell, "No Shell")
-    shell.CFrame = plr.Character.LeftFoot.CFrame
+    shell.CFrame = plr.Character.HumanoidRootPart.CFrame
     repeat wait() until not shell.Parent
 end
 local function getUri(startIndex) return "https://www.roblox.com/games/getgameinstancesjson?placeId=" .. tostring(game.PlaceId) .. "&startIndex=" .. tostring(startIndex) end
