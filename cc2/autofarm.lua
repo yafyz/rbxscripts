@@ -20,13 +20,17 @@ local servers = TeleportService:GetTeleportSetting("servers")
 local function checkServers()
 	if not servers or #servers == 0 then
 		servers = {}
+		print("scraping servers retard, script works, your brain not")
 		local max = tonumber(HttpService:JSONDecode(game:HttpGet(getUri(0)))["TotalCollectionSize"])
 		for i=0, max,10 do
 			local resp = HttpService:JSONDecode(game:HttpGet(getUri(i)))
 			if #resp["Collection"] == 0 then break end
 			for _,y in next, resp["Collection"] do
 				table.insert(servers, y["Guid"])
-				pcall(function() plr.PlayerGui.Screen.Twitter.Text = "Collected Servers: " .. #servers end)
+				pcall(function() 
+					plr.PlayerGui.Screen.Twitter.Text = "Collected Servers: " .. #servers 
+					plr.PlayerGui.Screen.Twitter.TextColor3 = Color3.new(1,1, 0)
+				end)
 			end
 		end
 	end
@@ -37,7 +41,10 @@ TeleportService.TeleportInitFailed:Connect(function()
 	checkServers()
     local nextServer = servers[#servers]
     table.remove(servers, #servers)
-    pcall(function() plr.PlayerGui.Screen.Twitter.Text = "Collected Servers: " .. tostring(#servers) .. ", " .. tostring(suc) .. " " .. tostring(ret) end)
+    pcall(function() 
+		plr.PlayerGui.Screen.Twitter.Text = "Collected Servers: " .. tostring(#servers) .. ", " .. tostring(suc) .. " " .. tostring(ret) 
+		plr.PlayerGui.Screen.Twitter.TextColor3 = Color3.new(1,1, 0)
+	end)
     TeleportService:SetTeleportSetting("servers", servers)
     TeleportService:TeleportToPlaceInstance(game.PlaceId, nextServer)
 end)
@@ -45,6 +52,9 @@ end)
 local suc, ret = pcall(CollectShell)
 local thisServer = servers[#servers]
 table.remove(servers, #servers)
-pcall(function() plr.PlayerGui.Screen.Twitter.Text = "Collected Servers: " .. tostring(#servers) .. ", " .. tostring(suc) .. " " .. tostring(ret) end)
+pcall(function() 
+	plr.PlayerGui.Screen.Twitter.Text = "Collected Servers: " .. tostring(#servers) .. ", " .. tostring(suc) .. " " .. tostring(ret) 
+	plr.PlayerGui.Screen.Twitter.TextColor3 = Color3.new(1,1, 0)
+end)
 TeleportService:SetTeleportSetting("servers", servers)
 TeleportService:TeleportToPlaceInstance(game.PlaceId, thisServer)
