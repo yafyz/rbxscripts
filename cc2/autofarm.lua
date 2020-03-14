@@ -20,7 +20,7 @@ local servers = TeleportService:GetTeleportSetting("servers")
 local function checkServers()
 	if not servers or #servers == 0 then
 		servers = {}
-		print("scraping servers retard, script works, your brain not")
+		print("scraping servers retard, script works, your brain not, unless there is an error below from", script.Name)
 		local max = tonumber(HttpService:JSONDecode(game:HttpGet(getUri(0)))["TotalCollectionSize"])
 		for i=0, max,10 do
 			local resp = HttpService:JSONDecode(game:HttpGet(getUri(i)))
