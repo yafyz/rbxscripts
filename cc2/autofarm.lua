@@ -72,7 +72,9 @@ end)
 
 local suc, ret = pcall(CollectShell)
 if not pcall(CheckRebirth) then
-	writefile("cc2autofarm_settings.json", [[{"Auto-Rebirth":false}]])
+	pcall(function()
+		writefile("cc2autofarm_settings.json", [[{"Auto-Rebirth":false}]])
+	end)
 end
 local thisServer = servers[#servers]
 table.remove(servers, #servers)
