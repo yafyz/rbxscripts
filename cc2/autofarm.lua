@@ -71,7 +71,9 @@ TeleportService.TeleportInitFailed:Connect(function()
 end)
 
 local suc, ret = pcall(CollectShell)
-pcall(CheckRebirth)
+if not pcall(CheckRebirth) then
+	writefile("cc2autofarm_settings.lua", [[{"Auto-Rebirth":false}]])
+end
 local thisServer = servers[#servers]
 table.remove(servers, #servers)
 pcall(function() 
