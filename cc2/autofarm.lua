@@ -13,7 +13,26 @@ local function CollectShell()
     shell.CFrame = plr.Character.HumanoidRootPart.CFrame
     repeat wait() until not shell.Parent
 end
-local function getUri(startIndex) return "https://www.roblox.com/games/getgameinstancesjson?placeId=" .. tostring(game.PlaceId) .. "&startIndex=" .. tostring(startIndex) end
+local function CheckRebirth()
+	local set = HttpService:JSONDecode(readfile("cc2autofarm_settings.lua"))
+	local tokens, money = plr.leaderstats.Tokens.Value, plr.Money.Value
+	local t1, t2, t3, t4 = 40000000000, 200000000000 , 450000000000, 1500000000000
+	print(set["Auto-Rebirth"])
+	if set["Auto-Rebirth"] == true then
+		if tokens == 0 and money >= t1 then
+			game:GetService("ReplicatedStorage").rF.Transfer:InvokeServer()
+		elseif tokens == 1 and money >= t2 then
+			game:GetService("ReplicatedStorage").rF.Transfer:InvokeServer()
+		elseif tokens == 2 and money >= t3 then
+			game:GetService("ReplicatedStorage").rF.Transfer:InvokeServer()
+		elseif tokens == 3 and money >= t4 then
+			game:GetService("ReplicatedStorage").rF.Transfer:InvokeServer()
+		end
+	end
+end
+local function getUri(startIndex) 
+	return "https://www.roblox.com/games/getgameinstancesjson?placeId=" .. tostring(game.PlaceId) .. "&startIndex=" .. tostring(startIndex)
+end
 
 local servers = TeleportService:GetTeleportSetting("servers")
 local function checkServers()
@@ -52,6 +71,7 @@ TeleportService.TeleportInitFailed:Connect(function()
 end)
 
 local suc, ret = pcall(CollectShell)
+pcall(CheckRebirth)
 local thisServer = servers[#servers]
 table.remove(servers, #servers)
 pcall(function() 
