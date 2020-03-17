@@ -14,7 +14,7 @@ local function CollectShell()
     repeat wait() until not shell.Parent
 end
 local function CheckRebirth()
-	local set = HttpService:JSONDecode(readfile("cc2autofarm_settings.lua"))
+	local set = HttpService:JSONDecode(readfile("cc2autofarm_settings.json"))
 	local tokens, money = plr.leaderstats.Tokens.Value, plr.Money.Value
 	local t1, t2, t3, t4 = 40000000000, 200000000000 , 450000000000, 1500000000000
 	print(set["Auto-Rebirth"])
@@ -72,7 +72,7 @@ end)
 
 local suc, ret = pcall(CollectShell)
 if not pcall(CheckRebirth) then
-	writefile("cc2autofarm_settings.lua", [[{"Auto-Rebirth":false}]])
+	writefile("cc2autofarm_settings.json", [[{"Auto-Rebirth":false}]])
 end
 local thisServer = servers[#servers]
 table.remove(servers, #servers)
