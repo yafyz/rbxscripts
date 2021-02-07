@@ -13,6 +13,7 @@ local function CollectShell()
     shell.CFrame = plr.Character.HumanoidRootPart.CFrame
     repeat wait() until not shell.Parent
 end
+
 local function CheckRebirth()
 	local set = HttpService:JSONDecode(readfile("cc2autofarm_settings.json"))
 	local tokens, money = plr.leaderstats.Tokens.Value, plr.Money.Value
@@ -30,33 +31,33 @@ local function CheckRebirth()
 		end
 	end
 end
-local function getUri(startIndex) 
-	return "https://www.roblox.com/games/getgameinstancesjson?placeId=" .. tostring(game.PlaceId) .. "&startIndex=" .. tostring(startIndex)
+
+local servers = TeleportService:GetTeleportSetting("servers");
+
+local function getUri(placeId, cursor)
+    return string.format("https://games.roblox.com/v1/games/%s/servers/Public?sortOrder=Asc&limit=100&cursor=%s", placeId, cursor);
 end
 
-local servers = TeleportService:GetTeleportSetting("servers")
 local function checkServers()
-	if not servers or #servers == 0 then
-		servers = {}
-		print("scraping servers retard, script works, your brain not, unless there is an error below from", script.Name)
-		local max = tonumber(HttpService:JSONDecode(game:HttpGet(getUri(0)))["TotalCollectionSize"])
-		for i=0, max,10 do
-			local resp = HttpService:JSONDecode(game:HttpGet(getUri(i)))
-			if #resp["Collection"] == 0 then break end
-			for _,y in next, resp["Collection"] do
-				table.insert(servers, y["Guid"])
-				pcall(function() 
-					plr.PlayerGui.Screen.Twitter.Text = "Collected Servers: " .. #servers 
-					plr.PlayerGui.Screen.Twitter.TextColor3 = Color3.new(1,1, 0)
-				end)
-			end
-		end
-		for i=1, max / 10 do
-			table.remove(servers, #servers)
-		end
-	end
+    if not servers or #servers == 0 then
+        servers = {};
+        local cursor = "";
+        while true do
+            local data = HttpService:JSONDecode(game:HttpGet(getUri(game.placeId, cursor)));
+            for _,v in next, data["data"] do
+                table.insert(servers, v["id"]) end;
+			pcall(function()
+				plr.PlayerGui.Screen.Twitter.Text = "Collected Servers: " .. #servers;
+				plr.PlayerGui.Screen.Twitter.TextColor3 = Color3.new(1,1, 0);
+			end);
+            if (not data["nextPageCursor"] or data["nextPageCursor"] == cursor) then
+                break end;
+            cursor = data["nextPageCursor"];
+        end
+    end
 end
-checkServers()
+
+checkServers();
 
 TeleportService.TeleportInitFailed:Connect(function()
 	checkServers()
